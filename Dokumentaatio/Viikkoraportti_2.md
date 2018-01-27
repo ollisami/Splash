@@ -20,4 +20,6 @@ Mikä jäi epäselväksi tai tuottanut vaikeuksia? Vastaa tähän kohtaan rehell
 Mitä teen seuraavaksi?
 
     Alan rakentamaan algoritmiä tietyn alueen valitsemiseksi kuvasta klikkaamalla sitä.
+    
+ Aikaa käytetty: 8h
 
