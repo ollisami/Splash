@@ -15,7 +15,7 @@ Mitä opin tällä viikolla / tänään?
 
 Mikä jäi epäselväksi tai tuottanut vaikeuksia? Vastaa tähän kohtaan rehellisesti, koska saat tarvittaessa apua tämän kohdan perusteella.
 
-    ei mitään
+    Aikataulutus. Viikko on ollut todella kirieinen, koitan ensiviikolla saada projektia etenemään hiukan vauhdikkaammin.
 
 Mitä teen seuraavaksi?
 
