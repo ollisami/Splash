@@ -1,6 +1,11 @@
 package splash;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
+import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -15,15 +20,20 @@ import javax.swing.JLabel;
 public class Main {
 
     public static void main(String[] args) {
+        //Path path = FileSystems.getDefault().getPath("resources", "Demo_simple.jpg");
         Path path = FileSystems.getDefault().getPath("resources", "Demo_1.jpg");
+
         BufferedImage bi = loadImage(path.toString());
-        
         ImageEditor editor = new ImageEditor(convertImgToColorPixelArray(bi));
-        
-        //createAndShowGUI(bi);
+        createAndShowGUI(editor);
 
     }
 
+    /**
+    The Description of the method to explain what the method does
+    @param ref path to image
+    @return the image as buffered image
+    */
     public static BufferedImage loadImage(String ref) {
         BufferedImage bimg = null;
         try {
@@ -34,24 +44,67 @@ public class Main {
         return bimg;
     }
 
-    private static void createAndShowGUI(BufferedImage bi) {
+    /**
+    Draws the image file to a JFrame
+    @param editor imageEditor that hold the image data
+    */
+    private static void createAndShowGUI(ImageEditor editor) {
+
+        BufferedImage bi = editor.GetImage();
+
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setBackground(Color.WHITE);
-        frame.add(new JLabel(new ImageIcon(bi)));
+        frame.getContentPane().setBackground(Color.BLACK);
+        frame.setSize(bi.getWidth(), bi.getHeight());
+        ImageIcon imgIcon = new ImageIcon(bi);
+        JLabel imgLabel = new JLabel(imgIcon);
+
+        imgLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Pixel:" + e.getX() + "," + e.getY());
+                System.out.println(editor.getPixelByCordinates(e.getX(), e.getY()));
+                editor.selectPixelsByCordinates(e.getX(), e.getY());
+                ImageIcon newImgIcon = new ImageIcon(editor.GetImage());
+                imgLabel.setIcon(newImgIcon);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        
+        frame.add(imgLabel);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
+    /**
+    Converts a buffered image to ColorPixel matrix
+    @param image image to convert
+    @return ColorPixel[][] holding the pixel data
+    */
     private static ColorPixel[][] convertImgToColorPixelArray(BufferedImage image) {
-        int width  = image.getWidth();
+        int width = image.getWidth();
         int height = image.getHeight();
-        ColorPixel[][] result = new ColorPixel[height][width];
+        ColorPixel[][] result = new ColorPixel[width][height];
 
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                result[row][col] = new ColorPixel(image.getRGB(col, row));
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                result[x][y] = new ColorPixel(image.getRGB(x, y));
             }
         }
         return result;
