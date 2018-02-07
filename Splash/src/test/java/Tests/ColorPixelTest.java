@@ -57,8 +57,8 @@ public class ColorPixelTest {
         assertTrue(a.equals(b));
         assertFalse(a.equals(c));
         
-        assertEquals(a.difference(b), 0);
-        assertEquals(a.difference(c),222);
+        assertTrue(a.difference(b) == 0.0);
+        assertTrue(a.difference(c) > 0.0);
     
     }
 }

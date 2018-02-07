@@ -32,6 +32,15 @@
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>1.1.8</version>
+                <configuration>
+                    <targetClasses>
+                        <param>SelectingAlgorithms.*</param>
+                        <param>splash.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>Tests.*</param>
+                    </targetTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
