@@ -1,10 +1,10 @@
 package splash;
 
+import SelectingAlgorithms.DummyLoopSelection;
+import SelectingAlgorithms.FloodFillSelection;
+import SelectingAlgorithms.SelectionAlgorithm;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class ImageEditor {
 
@@ -46,15 +46,26 @@ public class ImageEditor {
     @param y pixel cordinate y
     */
     public void selectPixelsByCordinates(int x, int y) {
-        selectedPixels = new ColorPixel[pixels.length][pixels[0].length];
-        int selectionRange = 50;
+        int selectionRange = 5500;
+        int expandAmount = 20;
         Point startPos = new Point(x,y);
+            
+        // Here we select the method used to make the selection.
+        //SelectionAlgorithm selectionAlgorithm = new DummyLoopSelection();
+        SelectionAlgorithm selectionAlgorithm = new FloodFillSelection();
         
-        //dummyLoop(startPos, selectionRange);
-        floodFill(startPos, selectionRange);
+        selectedPixels = selectionAlgorithm.SelectPixels(
+                this.pixels,
+                this.selectedAreaColor,
+                startPos,
+                selectionRange,
+                expandAmount
+        );
+        
+       //dummyReplceSelectedPixels();
+       VerticalReplceSelectedPixels();
     }
-    
-    
+       
     /**
     Returns a pixel from given cordinates. Null if invalid values.
     @param x pixel cordinate x
@@ -71,88 +82,67 @@ public class ImageEditor {
         return this.selectedPixels;
     }
     
-    
-//------------------- Different selecting algoritms -----------------------------------
-    
-    
-    /**
-    Loops through all the pixel in the image and selects the ones with matching colour.
-    @param startPos cordinates for the start pixel
-    @param range the accuracy of selection
-    */
-    public void dummyLoop(Point startPos ,int range) {
-        ColorPixel targetColor = getPixelByCordinates(startPos.x, startPos.y);
+//------------------- Different color replacing algoritms -----------------------------------
+    public void dummyReplceSelectedPixels() {
         for (int x = 0; x < pixels.length; x++) {
             for (int y =  0; y < pixels[x].length; y++) {
-                if(pixels[x][y].difference(targetColor) <= range) {
-                    selectedPixels[x][y] = this.selectedAreaColor;
+                
+                if(this.selectedPixels[x][y] != this.selectedAreaColor) continue;
+                
+                Point w = new Point(x,y);              
+                while(w.x > 0 && this.selectedPixels[w.x][w.y] != null) {
+                   w.x--;
                 }
+                
+                Point e = new Point(x,y);              
+                while(e.x < pixels.length -1 && this.selectedPixels[e.x][e.y] != null) {
+                   e.x++;
+                }
+                
+                ColorPixel replacement = this.pixels[w.x][w.y];
+                
+                replacement = replacement.difference(this.pixels[x][y]) < this.pixels[e.x][e.y].difference(this.pixels[x][y]) ? replacement : this.pixels[e.x][e.y];
+                
+                this.selectedPixels[x][y] = replacement;        
             }
         }
     }
     
-    
-    /**
-    Selects the pixels using FloodFill algorithm (https://en.wikipedia.org/wiki/Flood_fill)
-    Aika: 0(n), tila: O(n)
-    @param startPos cordinates for the start pixel
-    @param range the accuracy of selectiony
-    */
-    public void floodFill(Point startPos, int range) {
-        
-        ColorPixel targetColor = getPixelByCordinates(startPos.x, startPos.y);
-        Queue<Point> queue = new LinkedList();    
-        queue.add(startPos);
-        
-        while(!queue.isEmpty()) {
+        public void VerticalReplceSelectedPixels() {
             
-            Point n = queue.remove();
+            int westEdge = Integer.MIN_VALUE;
+            int offset = 0;
+            boolean increaseOffset = true;
             
-            Point w = new Point(n.x, n.y);           
-            while (true) {
-                if(w.x >= 0 && getPixelByCordinates(w.x , w.y).difference(targetColor) <= range) {
-                    w.x--;
-                } else {
-                    w.x++;
-                    break;
-                }
-            }
-            
-            Point e = new Point(n.x, n.y);
-            while (true) {
-                if(e.x < pixels.length && getPixelByCordinates(e.x , e.y).difference(targetColor) <= range) {
-                    e.x++;
-                } else {
-                    e.x--;
-                    break;
-                }
-            }
-            
-            n = new Point(w.x, w.y);
-            while (n.x <= e.x) {
-                if(selectedPixels[n.x][n.y] == null) {
-                    
-                    selectedPixels[n.x][n.y] = this.selectedAreaColor;
-                    Point north = new Point(n.x, n.y + 1);
-                    Point south = new Point(n.x, n.y - 1);
-                    
-                    
-                    if(north.y < pixels[0].length &&
-                       selectedPixels[north.x][north.y] == null &&
-                       pixels[north.x][north.y].difference(targetColor) <= range)
-                    {
-                        queue.add(north);
-                    }
+            for (int x = 0; x < pixels.length; x++) {
 
-                    if(south.y >= 0 &&
-                       selectedPixels[south.x][south.y] == null && 
-                       pixels[south.x][south.y].difference(targetColor) <= range) 
-                    {
-                        queue.add(south);
+                int verticalStart = Integer.MIN_VALUE , verticalStop = Integer.MIN_VALUE;
+
+                for (int y =  0; y < pixels[x].length; y++) {
+                    if(this.selectedPixels[x][y] == this.selectedAreaColor) {
+                        if(verticalStart == Integer.MIN_VALUE) {
+                            verticalStart = y;
+                        }
+                        verticalStop = y;  
                     }
                 }
-                n.x++;
+
+                if(verticalStart == Integer.MIN_VALUE || verticalStop == Integer.MIN_VALUE) continue;              
+                if(westEdge == Integer.MIN_VALUE) westEdge = x;
+
+                for (int y = verticalStart; y <= verticalStop; y++) {
+                    
+                    if(westEdge - offset < 0) break;
+                    
+                    this.selectedPixels[x][y] = this.pixels[westEdge - offset][y];
+                    
+                    if(offset >= 10) increaseOffset = false;
+                    else if (offset < 0) increaseOffset = true;
+                    
+                    offset += increaseOffset ? 1 : -1;
+                }
+
             }
-        }
     }
+       
 }

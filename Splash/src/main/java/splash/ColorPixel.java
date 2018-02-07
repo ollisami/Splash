@@ -98,11 +98,19 @@ public class ColorPixel {
     @param other colour to be compared to this colour
     @return the difference
     */
-    public int difference(ColorPixel other) {
+    public double difference(ColorPixel c) {
+        /*
         int diff = Math.abs(this.a - other.a);
         diff = Math.max(diff, Math.abs(this.r - other.r));
         diff = Math.max(diff, Math.abs(this.g - other.g));
         diff = Math.max(diff, Math.abs(this.b - other.b));
         return diff;
+        int cR = this.r - other.r; 
+        int cG= this.g - other.g; 
+        int cB = this.b - other.b; 
+        int uR = this.r + other.r; 
+        //return cR*cR*(2+uR/256) + cG*cG*4 + cB*cB*(2+(255-uR)/256);
+*/
+        return (c.r - this.r)*(c.r - this.r) + (c.g - this.g)*(c.g - this.g) + (c.b - this.b)*(c.b - this.b);
     }
 }
