@@ -34,8 +34,10 @@
                 <version>1.1.8</version>
                 <configuration>
                     <targetClasses>
+                        <param>ReplacingAlgorithms.*</param>
                         <param>SelectingAlgorithms.*</param>
-                        <param>splash.*</param>
+                        <param>splash.ColorPixel</param>
+                        <param>splash.ImageEditor</param>
                     </targetClasses>
                     <targetTests>
                         <param>Tests.*</param>

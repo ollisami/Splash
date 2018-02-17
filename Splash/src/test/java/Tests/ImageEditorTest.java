@@ -1,11 +1,6 @@
 package Tests;
 
-import java.awt.Point;
 import java.awt.image.BufferedImage;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import splash.ColorPixel;
@@ -29,6 +24,18 @@ public class ImageEditorTest {
         }
         
         this.imgEditor = new ImageEditor(pixels);
+    }
+    
+    @Test
+    public void TestGetPixelByCordinates() {
+        assertTrue(this.imgEditor.getPixelByCordinates(-1, -1) == null);
+        assertTrue(this.imgEditor.getPixelByCordinates(this.pixels.length, this.pixels.length) == null);
+    }
+    
+    @Test
+    public void TestSelectingPixels() {
+        this.imgEditor.selectPixelsByCordinates(3, 3);
+        assertFalse(this.imgEditor.getSelectedPixels()[3][3] == null);
     }
     
     @Test

@@ -1,9 +1,6 @@
 package splash;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
-import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -22,10 +19,11 @@ public class Main {
     public static void main(String[] args) {
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_simple.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_1.jpg");
-        Path path = FileSystems.getDefault().getPath("resources", "Demo_2.jpg");
+        //Path path = FileSystems.getDefault().getPath("resources", "Demo_2.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_3.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_4.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_5.jpg");
+        Path path = FileSystems.getDefault().getPath("resources", "Demo_6.jpg");
         
         BufferedImage bi = loadImage(path.toString());
         ImageEditor editor = new ImageEditor(convertImgToColorPixelArray(bi));
