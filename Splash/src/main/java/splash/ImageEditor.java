@@ -3,9 +3,13 @@ package splash;
 import Helpers.ColorPixel;
 import Helpers.PixelPoint;
 import MultiFunctionAlgorithms.FloodFillWithMixedRepeat;
+import ReplacingAlgorithms.DummyPixelReplace;
 import ReplacingAlgorithms.MixedRepeatPixelReplace;
 import ReplacingAlgorithms.ReplacingAlgorithm;
+import ReplacingAlgorithms.VerticalRepeatPixelReplace;
+import SelectingAlgorithms.DummyLoopSelection;
 import SelectingAlgorithms.FloodFillSelection;
+import SelectingAlgorithms.OnePassCCL;
 import SelectingAlgorithms.SelectionAlgorithm;
 import java.awt.image.BufferedImage;
 
@@ -51,10 +55,10 @@ public class ImageEditor {
      * @param y pixel cordinate y
      */
     public void selectPixelsByCordinates(int x, int y) {
-        int selectionRange = 9500;
+        int selectionRange = 100000;
         int expandAmount = 10;
         PixelPoint startPos = new PixelPoint(x, y);
-        
+        /*
         // Here we select the method used to make the selection.
         //SelectionAlgorithm selectionAlgorithm = new DummyLoopSelection();
         SelectionAlgorithm selectionAlgorithm = new FloodFillSelection();
@@ -72,10 +76,24 @@ public class ImageEditor {
         //ReplacingAlgorithm replacingAlgorithm = new VerticalRepeatPixelReplace();
         ReplacingAlgorithm replacingAlgorithm = new MixedRepeatPixelReplace();
         this.selectedPixels = replacingAlgorithm.replacePixels(pixels, selectedPixels, selectedAreaColor);
+        */
         
         //Do a loop that finds best values here!
-        //FloodFillWithMixedRepeat ffwmr = new FloodFillWithMixedRepeat();
-        //this.selectedPixels = ffwmr.SelectAndReplacePixels(pixels, selectedAreaColor, startPos, selectionRange, expandAmount);
+        FloodFillWithMixedRepeat ffwmr = new FloodFillWithMixedRepeat();
+        this.selectedPixels = null;
+        while (this.selectedPixels == null) {
+            this.selectedPixels = ffwmr.SelectAndReplacePixels(pixels, selectedAreaColor, startPos, selectionRange, expandAmount);
+            selectionRange -= 2000;
+            if(selectionRange < 0) break;
+        }
+        
+        ColorPixel[][]temp = this.selectedPixels;
+        while (true) {
+            selectionRange += 100;
+            temp = ffwmr.SelectAndReplacePixels(pixels, selectedAreaColor, startPos, selectionRange, expandAmount);
+            if(temp != null) this.selectedPixels = temp;
+            else break;
+        }
     }
 
     /**

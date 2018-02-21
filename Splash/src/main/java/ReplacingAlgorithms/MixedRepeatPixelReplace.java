@@ -84,7 +84,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
         if(filledArraysCount > 0) {
             for (int x = 0; x < selectedPixels.length; x++) {
                 for (int y = 0; y < selectedPixels[x].length; y++) {
-                    if(x < w_max || x >= e_max || y < s_max || y >= n_max) continue;
+                    if(x < w_max || x > e_max || y < s_max || y > n_max) continue;
 
                     int normalized_x = x - w_max;
                     int normalized_y = y - s_max;

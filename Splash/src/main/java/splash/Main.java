@@ -17,19 +17,36 @@ import javax.swing.JLabel;
 
 public class Main {
 
+    static JLabel imgLabel;
+    
     public static void main(String[] args) {
+        
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_simple.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_1.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_2.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_3.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_4.jpg");
+        Path path = FileSystems.getDefault().getPath("resources", "Demo_4.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_5.jpg");
-        Path path = FileSystems.getDefault().getPath("resources", "Demo_6.jpg");
+        //Path path = FileSystems.getDefault().getPath("resources", "Demo_6.jpg");
+        
+        //Performance testing
+        //Path path = FileSystems.getDefault().getPath("resources", "performance_test_400.jpg");
+        //Path path = FileSystems.getDefault().getPath("resources", "performance_test_800.jpg");
+        //Path path = FileSystems.getDefault().getPath("resources", "performance_test_1000.jpg");
         
         BufferedImage bi = loadImage(path.toString());
         ImageEditor editor = new ImageEditor(convertImgToColorPixelArray(bi));
         createAndShowGUI(editor);
-
+        
+        //Performance testing
+        /*
+        long aikaAlussa = System.currentTimeMillis(); 
+        editor.selectPixelsByCordinates(500, 500);
+        ImageIcon newImgIcon = new ImageIcon(editor.GetImage());
+        imgLabel.setIcon(newImgIcon);
+        long aikaLopussa = System.currentTimeMillis(); 
+        System.out.println("Operaatioon kului aikaa: " + (aikaLopussa - aikaAlussa) + "ms."); 
+        */
     }
 
     /**
@@ -60,7 +77,7 @@ public class Main {
         frame.getContentPane().setBackground(Color.BLACK);
         frame.setSize(bi.getWidth(), bi.getHeight());
         ImageIcon imgIcon = new ImageIcon(bi);
-        JLabel imgLabel = new JLabel(imgIcon);
+        imgLabel = new JLabel(imgIcon);
 
         imgLabel.addMouseListener(new MouseListener() {
             @Override
