@@ -1,10 +1,17 @@
 package ReplacingAlgorithms;
 
-import java.util.ArrayList;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
 
 public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
-
+    /**
+    Loops through all the pixels and replaces the color by 4-way copying the texture from nort, south, west and east of the selected area.
+    At the end we calculate a median color for each pixel and use it.
+    Time: 0(n²), Space: O(n²).
+    @param pixels Current pixels matrix
+    @param selectedPixels the currently selected area
+    @param selectedAreaColor Color of the selected pixels
+    @return ColorPixel[][] selectedPixels with replaced colors
+    */
     @Override
     public ColorPixel[][] replacePixels(ColorPixel[][] pixels, ColorPixel[][] selectedPixels, ColorPixel selectedAreaColor) {
 
@@ -12,7 +19,8 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
         int n_max = Integer.MIN_VALUE;
         int e_max = Integer.MIN_VALUE;
         int s_max = Integer.MAX_VALUE;
-
+        
+        // Search for the edges of our selected area
         for (int x = 0; x < selectedPixels.length; x++) {
             for (int y = 0; y < selectedPixels[x].length; y++) {
                 if (selectedPixels[x][y] != selectedAreaColor) {
@@ -25,15 +33,18 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
             }
         }
         
+        // make the selected area a square based on edges
         int areaSize_x = e_max - w_max + 1;
         int areaSize_y = n_max - s_max + 1;
         
-        ColorPixel[][] w_fill = new ColorPixel[areaSize_x][areaSize_y];
-        ColorPixel[][] n_fill = new ColorPixel[areaSize_x][areaSize_y];
-        ColorPixel[][] e_fill = new ColorPixel[areaSize_x][areaSize_y];
-        ColorPixel[][] s_fill = new ColorPixel[areaSize_x][areaSize_y];
+        // Create new arrays for all four direction
+        ColorPixel[][][] filledArrays = new ColorPixel[4][areaSize_x][areaSize_y];
+        ColorPixel[][] w_fill = filledArrays[0];
+        ColorPixel[][] n_fill = filledArrays[1];
+        ColorPixel[][] e_fill = filledArrays[2];
+        ColorPixel[][] s_fill = filledArrays[3];
         
-        ArrayList<ColorPixel[][]> filledArrays = new ArrayList<>();
+        int filledArraysCount = 0;
         
         if(w_max + -areaSize_x >= 0) {
             for (int x = 0; x < areaSize_x; x++) {
@@ -41,7 +52,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
                     w_fill[x][y] = pixels[w_max - x][s_max + y];
                 }
             }
-            filledArrays.add(w_fill);
+            filledArraysCount++;
         }
         
         if(n_max + areaSize_y < pixels[0].length) {
@@ -50,7 +61,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
                     n_fill[x][y] = pixels[w_max + x][n_max + areaSize_y - y];
                 }
             }
-            filledArrays.add(n_fill);
+            filledArraysCount++;
         }
         
         if(e_max + areaSize_x < pixels.length) {
@@ -59,7 +70,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
                     e_fill[x][y] = pixels[e_max + areaSize_x - x][s_max + y];
                 }
             }
-            filledArrays.add(e_fill);
+            filledArraysCount++;
         }
         
         if(s_max - areaSize_y >= 0) {
@@ -68,10 +79,9 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
                     s_fill[x][y] = pixels[w_max + x][s_max - y];
                 }
             }
-            filledArrays.add(e_fill);
+            filledArraysCount++;
         }
-        
-        if(!filledArrays.isEmpty()) {
+        if(filledArraysCount > 0) {
             for (int x = 0; x < selectedPixels.length; x++) {
                 for (int y = 0; y < selectedPixels[x].length; y++) {
                     if(x < w_max || x >= e_max || y < s_max || y >= n_max) continue;
@@ -83,7 +93,8 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
                     int median_g = 0;
                     int median_b = 0;
 
-                    for (ColorPixel[][] arr : filledArrays) {
+                    for (int i = 0; i < 4; i++) {
+                        ColorPixel[][] arr = filledArrays[i];
                         if(arr[normalized_x][normalized_y] == null) continue;
                         int[] values = arr[normalized_x][normalized_y].getValues();
                         median_a += values[1];
@@ -93,13 +104,15 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
                     }
                     
                     selectedPixels[x][y] = new ColorPixel(
-                            median_a / filledArrays.size(),
-                            median_r / filledArrays.size(),
-                            median_g / filledArrays.size(),
-                            median_b / filledArrays.size()
+                            median_a / filledArraysCount,
+                            median_r / filledArraysCount,
+                            median_g / filledArraysCount,
+                            median_b / filledArraysCount
                     );
                 }
             }
+        } else {
+            System.out.println("ERR! The selected area is too big for this algorithm!");
         }
         return selectedPixels;
     }

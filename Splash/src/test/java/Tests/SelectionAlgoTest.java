@@ -6,9 +6,9 @@ import SelectingAlgorithms.OnePassCCL;
 import SelectingAlgorithms.SelectionAlgorithm;
 import java.awt.Point;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 import splash.ImageEditor;
 
 public class SelectionAlgoTest {
@@ -35,18 +35,18 @@ public class SelectionAlgoTest {
     @Test
     public void testDummySelection() {
         SelectionAlgorithm algo = new DummyLoopSelection();
-        assertFalse(algo.SelectPixels(this.pixels, selectedAreaColor, new Point(3,3), 1000, 1) == null); 
+        assertFalse(algo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1) == null); 
     }
     
     @Test
     public void testFloodFillSelection() {
         SelectionAlgorithm algo = new FloodFillSelection();
-        assertFalse(algo.SelectPixels(this.pixels, selectedAreaColor, new Point(3,3), 1000, 1) == null); 
+        assertFalse(algo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1) == null); 
     }
     
     @Test
     public void testOnePassCCLselection() {
         SelectionAlgorithm algo = new OnePassCCL();
-        assertFalse(algo.SelectPixels(this.pixels, selectedAreaColor, new Point(3,3), 1000, 1) == null); 
+        assertFalse(algo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1) == null); 
     }
 }

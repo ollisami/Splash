@@ -1,9 +1,8 @@
 package SelectingAlgorithms;
 
-import java.awt.Point;
-import java.util.LinkedList;
-import java.util.Queue;
-import splash.ColorPixel;
+import Helpers.PPLinkedList;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 
 public class FloodFillSelection implements SelectionAlgorithm {
    /**
@@ -17,19 +16,19 @@ public class FloodFillSelection implements SelectionAlgorithm {
     @return ColorPixel[][] selectedPixels
     */
     @Override
-    public ColorPixel[][] SelectPixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, Point startPos, int range, int expandAmount) {
+    public ColorPixel[][] SelectPixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, PixelPoint startPos, int range, int expandAmount) {
         
         ColorPixel[][] selectedPixels = new ColorPixel[pixels.length][pixels[0].length];
         ColorPixel targetColor        = pixels[startPos.x][startPos.y];
-        Queue<Point> queue            = new LinkedList();    
+        PPLinkedList queue            = new PPLinkedList();    
         queue.add(startPos);
         
         while(!queue.isEmpty()) {
             
-            Point n = queue.remove();
+            PixelPoint n = queue.remove();
             if(selectedPixels[n.x][n.y] != null) continue;
             
-            Point w = new Point(n.x, n.y);           
+            PixelPoint w = new PixelPoint(n.x, n.y);           
             while (true) {               
                 if(w.x >= 0 && pixels[w.x][w.y].difference(targetColor) <= range) {
                     w.x--;
@@ -39,7 +38,7 @@ public class FloodFillSelection implements SelectionAlgorithm {
                 }
             }
             
-            Point e = new Point(n.x, n.y);
+            PixelPoint e = new PixelPoint(n.x, n.y);
             while (true) {
                 if(e.x < pixels.length && pixels[e.x][e.y].difference(targetColor) <= range) {
                     e.x++;
@@ -49,13 +48,13 @@ public class FloodFillSelection implements SelectionAlgorithm {
                 }
             }
                         
-            n = new Point(w.x, w.y);          
+            n = new PixelPoint(w.x, w.y);          
             while (n.x <= e.x) {
                 if(selectedPixels[n.x][n.y] == null) {
                                   
                     selectedPixels[n.x][n.y] = selectedAreaColor;
-                    Point north = new Point(n.x, n.y + 1);
-                    Point south = new Point(n.x, n.y - 1);
+                    PixelPoint north = new PixelPoint(n.x, n.y + 1);
+                    PixelPoint south = new PixelPoint(n.x, n.y - 1);
                     
                     
                     if(north.y < pixels[0].length &&
@@ -64,7 +63,7 @@ public class FloodFillSelection implements SelectionAlgorithm {
                     {
                         for (int i = 0; i < expandAmount; i++) {
                             if(north.y + i >= pixels[0].length ) break;
-                            queue.add(new Point (north.x, north.y + i));
+                            queue.add(new PixelPoint (north.x, north.y + i));
                         }
                     }
 
@@ -74,7 +73,7 @@ public class FloodFillSelection implements SelectionAlgorithm {
                     {
                         for (int i = 0; i < expandAmount; i++) {
                             if(south.y - i < 0 ) break;
-                            queue.add(new Point (south.x, south.y - i));
+                            queue.add(new PixelPoint (south.x, south.y - i));
                         }
                     }
                 }
@@ -83,5 +82,4 @@ public class FloodFillSelection implements SelectionAlgorithm {
         }
         return selectedPixels;
     }
-      
 }

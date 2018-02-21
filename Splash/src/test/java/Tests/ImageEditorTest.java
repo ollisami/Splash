@@ -3,7 +3,7 @@ package Tests;
 import java.awt.image.BufferedImage;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
 import splash.ImageEditor;
 
 

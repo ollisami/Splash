@@ -1,10 +1,18 @@
 package ReplacingAlgorithms;
 
-import java.awt.Point;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 
 public class DummyPixelReplace implements ReplacingAlgorithm {
-
+    /**
+    Loops through all the pixels and replaces the color by copying the color thats on the west or east side of the selected area 
+    (depending on the difference between the colors).
+    Time: 0(n²), Space: O(n²).
+    @param pixels Current pixels matrix
+    @param selectedPixels the currently selected area
+    @param selectedAreaColor Color of the selected pixels
+    @return ColorPixel[][] selectedPixels with replaced colors
+    */
     @Override
     public ColorPixel[][] replacePixels(ColorPixel[][] pixels, ColorPixel[][] selectedPixels, ColorPixel selectedAreaColor) {
         for (int x = 0; x < pixels.length; x++) {
@@ -14,12 +22,12 @@ public class DummyPixelReplace implements ReplacingAlgorithm {
                     continue;
                 }
 
-                Point w = new Point(x, y);
+                PixelPoint w = new PixelPoint(x, y);
                 while (w.x > 0 && selectedPixels[w.x][w.y] != null) {
                     w.x--;
                 }
 
-                Point e = new Point(x, y);
+                PixelPoint e = new PixelPoint(x, y);
                 while (e.x < pixels.length - 1 && selectedPixels[e.x][e.y] != null) {
                     e.x++;
                 }

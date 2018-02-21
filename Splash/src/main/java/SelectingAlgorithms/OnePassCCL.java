@@ -1,14 +1,14 @@
 package SelectingAlgorithms;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 
 public class OnePassCCL implements SelectionAlgorithm {
 
-    private HashMap<Integer, ArrayList<Point>> pixelLabelsMap;
+    private HashMap<Integer, ArrayList<PixelPoint>> pixelLabelsMap;
     private int[][] labels;
 
     public OnePassCCL() {
@@ -28,7 +28,7 @@ public class OnePassCCL implements SelectionAlgorithm {
      * @return ColorPixel[][] selectedPixels
      */
     @Override
-    public ColorPixel[][] SelectPixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, Point startPos, int range, int expandAmount) {
+    public ColorPixel[][] SelectPixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, PixelPoint startPos, int range, int expandAmount) {
 
         if (this.pixelLabelsMap.isEmpty()) {
             SetImageLabels(pixels, range);
@@ -37,8 +37,8 @@ public class OnePassCCL implements SelectionAlgorithm {
         ColorPixel[][] selectedPixels = new ColorPixel[pixels.length][pixels[0].length];
         if (!this.pixelLabelsMap.containsKey(this.labels[startPos.x][startPos.y])) return selectedPixels;
         
-        ArrayList<Point> selectedArea = this.pixelLabelsMap.get(this.labels[startPos.x][startPos.y]);
-        for (Point p : selectedArea) {
+        ArrayList<PixelPoint> selectedArea = this.pixelLabelsMap.get(this.labels[startPos.x][startPos.y]);
+        for (PixelPoint p : selectedArea) {
             selectedPixels[p.x][p.y] = selectedAreaColor;
         }
         
@@ -59,17 +59,17 @@ public class OnePassCCL implements SelectionAlgorithm {
             for (int y = 0; y < pixels[x].length; y++) {
                 if(labels[x][y] == Integer.MAX_VALUE) {
                     currentLabelCount++;
-                    List<Point> neighbours = getNeigbours(x,y, pixels.length, pixels[x].length, 2);                
+                    List<PixelPoint> neighbours = getNeigbours(x,y, pixels.length, pixels[x].length, 2);                
                     for (int i = -1; i <= 1; i++) {
                         for (int j = -1; j <= 1; j++) {
                             if(i == 0 && j == 0) continue;
-                            Point p = new Point(x + i, y + j);
+                            PixelPoint p = new PixelPoint(x + i, y + j);
                             if(p.x >= 0 && p.x < pixels.length && p.y >= 0 && p.y < pixels[x].length)
                                 neighbours.add(p);
                         }
                     }
                     int smallestLabelInNeighbours = currentLabelCount;
-                    for (Point p : neighbours) {
+                    for (PixelPoint p : neighbours) {
                         if(labels[p.x][p.y] < smallestLabelInNeighbours && pixels[x][y].difference(pixels[p.x][p.y]) < range) {
                             smallestLabelInNeighbours = labels[p.x][p.y];
                         }
@@ -83,7 +83,7 @@ public class OnePassCCL implements SelectionAlgorithm {
             for (int y = 0; y < labels[x].length; y++) {
                 int key = labels[x][y];
                 if(this.pixelLabelsMap.containsKey(key)) {
-                    this.pixelLabelsMap.get(key).add(new Point(x,y));
+                    this.pixelLabelsMap.get(key).add(new PixelPoint(x,y));
                 } else {
                     this.pixelLabelsMap.put(key, new ArrayList<>());
                 }
@@ -91,12 +91,12 @@ public class OnePassCCL implements SelectionAlgorithm {
         }
     }
 
-    private List<Point> getNeigbours (int x, int y, int max_x, int max_y, int range) {
-        List<Point> neighbours = new ArrayList<>();                
+    private List<PixelPoint> getNeigbours (int x, int y, int max_x, int max_y, int range) {
+        List<PixelPoint> neighbours = new ArrayList<>();                
         for (int i = -range; i <= range; i++) {
             for (int j = -range; j <= range; j++) {
                 if(i == 0 && j == 0) continue;
-                Point p = new Point(x + i, y + j);
+                PixelPoint p = new PixelPoint(x + i, y + j);
                 if(p.x >= 0 && p.x < max_x && p.y >= 0 && p.y < max_y)
                     neighbours.add(p);
             }

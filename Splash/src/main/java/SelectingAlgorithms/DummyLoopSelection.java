@@ -1,7 +1,7 @@
 package SelectingAlgorithms;
 
-import java.awt.Point;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 
 public class DummyLoopSelection implements SelectionAlgorithm {
     /**
@@ -15,7 +15,7 @@ public class DummyLoopSelection implements SelectionAlgorithm {
     @return ColorPixel[][] selectedPixels
     */
     @Override
-    public ColorPixel[][] SelectPixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, Point startPos ,int range, int expandAmount) {
+    public ColorPixel[][] SelectPixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, PixelPoint startPos ,int range, int expandAmount) {
         
         ColorPixel[][] selectedPixels = new ColorPixel[pixels.length][pixels[0].length];
         ColorPixel targetColor = pixels[startPos.x][startPos.y];

@@ -2,7 +2,7 @@ package Tests;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
 
 public class ColorPixelTest {
     
@@ -43,7 +43,7 @@ public class ColorPixelTest {
        assertEquals(pixel.getRGB(), 1000);
     }
     
-        @Test
+    @Test
     public void testComparation() {
     
         ColorPixel a = new ColorPixel(1000);
@@ -56,5 +56,21 @@ public class ColorPixelTest {
         assertTrue(a.difference(b) == 0.0);
         assertTrue(a.difference(c) > 0.0);
     
+    }
+    
+    @Test
+    public void testBlending() {
+        
+        ColorPixel a = new ColorPixel(255,120,120,120);
+        ColorPixel b = new ColorPixel(255,80,80,80);
+        
+        ColorPixel c = a.blendPixelByPercent(b, 0);
+        assertTrue(c.getRGB() == a.getRGB());
+        
+        c = a.blendPixelByPercent(b, 0.5);
+        assertTrue(c.getRGB() == new ColorPixel (255, 100, 100, 100).getRGB());
+        
+        c = a.blendPixelByPercent(b, 1);
+        assertTrue(c.getRGB() == b.getRGB());
     }
 }

@@ -1,14 +1,14 @@
 package SelectingAlgorithms;
 
-import java.awt.Point;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 
 
 public interface SelectionAlgorithm {
     public ColorPixel[][] SelectPixels(
             ColorPixel[][] pixels,
             ColorPixel selectedAreaColor,
-            Point startPos,
+            PixelPoint startPos,
             int range,
             int expandAmount
     );

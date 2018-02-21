@@ -1,4 +1,4 @@
-package splash;
+package Helpers;
 
 public class ColorPixel {
 
@@ -100,5 +100,22 @@ public class ColorPixel {
     */
     public double difference(ColorPixel c) {
         return (c.r - this.r)*(c.r - this.r) + (c.g - this.g)*(c.g - this.g) + (c.b - this.b)*(c.b - this.b);
+    }
+    
+    /**
+    Return a blended pixel lerped by percent value. 0 returns this color, 1 returns the other pixel.
+    @param other colour to be compared to this colour
+    @param percent the percent value of blending
+    @return the difference
+    */
+    public ColorPixel blendPixelByPercent (ColorPixel other, double percent) {
+        percent = Math.max(0, Math.min(percent, 1));
+        int[] otherValues = other.getValues();
+        return new ColorPixel(
+            (int) (this.a + (otherValues[1] - this.a) * percent),
+            (int) (this.r + (otherValues[2] - this.r) * percent),
+            (int) (this.g + (otherValues[3] - this.g) * percent),
+            (int) (this.b + (otherValues[4] - this.b) * percent)
+        );
     }
 }

@@ -1,11 +1,12 @@
 package splash;
 
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
+import MultiFunctionAlgorithms.FloodFillWithMixedRepeat;
 import ReplacingAlgorithms.MixedRepeatPixelReplace;
 import ReplacingAlgorithms.ReplacingAlgorithm;
-import ReplacingAlgorithms.VerticalRepeatPixelReplace;
 import SelectingAlgorithms.FloodFillSelection;
 import SelectingAlgorithms.SelectionAlgorithm;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public class ImageEditor {
@@ -35,7 +36,7 @@ public class ImageEditor {
 
         for (int x = pixels.length - 1; x >= 0; x--) {
             for (int y = pixels[x].length - 1; y >= 0; y--) {
-                int argb = selectedPixels[x][y] != null ? selectedPixels[x][y].getRGB() : pixels[x][y].getRGB();
+                int argb = selectedPixels != null && selectedPixels[x][y] != null ? selectedPixels[x][y].getRGB() : pixels[x][y].getRGB();
                 bufferedImage.setRGB(x, y, argb);
             }
         }
@@ -50,10 +51,10 @@ public class ImageEditor {
      * @param y pixel cordinate y
      */
     public void selectPixelsByCordinates(int x, int y) {
-        int selectionRange = 3500;
+        int selectionRange = 9500;
         int expandAmount = 10;
-        Point startPos = new Point(x, y);
-
+        PixelPoint startPos = new PixelPoint(x, y);
+        
         // Here we select the method used to make the selection.
         //SelectionAlgorithm selectionAlgorithm = new DummyLoopSelection();
         SelectionAlgorithm selectionAlgorithm = new FloodFillSelection();
@@ -70,7 +71,11 @@ public class ImageEditor {
         //ReplacingAlgorithm replacingAlgorithm = new DummyPixelReplace();
         //ReplacingAlgorithm replacingAlgorithm = new VerticalRepeatPixelReplace();
         ReplacingAlgorithm replacingAlgorithm = new MixedRepeatPixelReplace();
-        replacingAlgorithm.replacePixels(pixels, selectedPixels, selectedAreaColor);
+        this.selectedPixels = replacingAlgorithm.replacePixels(pixels, selectedPixels, selectedAreaColor);
+        
+        //Do a loop that finds best values here!
+        //FloodFillWithMixedRepeat ffwmr = new FloodFillWithMixedRepeat();
+        //this.selectedPixels = ffwmr.SelectAndReplacePixels(pixels, selectedAreaColor, startPos, selectionRange, expandAmount);
     }
 
     /**

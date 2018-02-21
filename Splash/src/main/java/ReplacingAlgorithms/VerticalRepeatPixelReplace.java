@@ -1,9 +1,16 @@
 package ReplacingAlgorithms;
 
-import splash.ColorPixel;
+import Helpers.ColorPixel;
 
 public class VerticalRepeatPixelReplace implements ReplacingAlgorithm {
-
+    /**
+    Loops through all the pixels and replaces the color copying the texture from west of the selected area.
+    Time: 0(n²), Space: O(n²).
+    @param pixels Current pixels matrix
+    @param selectedPixels the currently selected area
+    @param selectedAreaColor Color of the selected pixels
+    @return ColorPixel[][] selectedPixels with replaced colors
+    */
     @Override
     public ColorPixel[][] replacePixels(ColorPixel[][] pixels, ColorPixel[][] selectedPixels, ColorPixel selectedAreaColor) {
         int westEdge = Integer.MIN_VALUE;

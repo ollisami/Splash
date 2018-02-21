@@ -8,13 +8,10 @@ import ReplacingAlgorithms.VerticalRepeatPixelReplace;
 import SelectingAlgorithms.FloodFillSelection;
 import SelectingAlgorithms.SelectionAlgorithm;
 import java.awt.Point;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import splash.ColorPixel;
+import Helpers.ColorPixel;
+import Helpers.PixelPoint;
 import splash.ImageEditor;
 
 /**
@@ -44,7 +41,7 @@ public class ReplaceAlgoTest {
     @Test
     public void testDummyReplace() {
         SelectionAlgorithm selectAlgo = new FloodFillSelection();
-        ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new Point(3,3), 1000, 1); 
+        ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1); 
         
         ReplacingAlgorithm replaceAlgo = new DummyPixelReplace();
         assertFalse(replaceAlgo.replacePixels(pixels, selected, selectedAreaColor) == null);
@@ -53,7 +50,7 @@ public class ReplaceAlgoTest {
     @Test
     public void testVericalReplace() {
         SelectionAlgorithm selectAlgo = new FloodFillSelection();
-        ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new Point(3,3), 1000, 1); 
+        ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1); 
         
         ReplacingAlgorithm replaceAlgo = new VerticalRepeatPixelReplace();
         assertFalse(replaceAlgo.replacePixels(pixels, selected, selectedAreaColor) == null);
@@ -62,7 +59,7 @@ public class ReplaceAlgoTest {
     @Test
     public void testMixedRepeatReplace() {
         SelectionAlgorithm selectAlgo = new FloodFillSelection();
-        ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new Point(3,3), 1000, 1); 
+        ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1); 
         
         ReplacingAlgorithm replaceAlgo = new MixedRepeatPixelReplace();
         assertFalse(replaceAlgo.replacePixels(pixels, selected, selectedAreaColor) == null);
