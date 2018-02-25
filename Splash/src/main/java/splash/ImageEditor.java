@@ -78,7 +78,6 @@ public class ImageEditor {
         this.selectedPixels = replacingAlgorithm.replacePixels(pixels, selectedPixels, selectedAreaColor);
         */
         
-        //Do a loop that finds best values here!
         FloodFillWithMixedRepeat ffwmr = new FloodFillWithMixedRepeat();
         this.selectedPixels = null;
         while (this.selectedPixels == null) {

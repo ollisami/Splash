@@ -3,7 +3,10 @@ package MultiFunctionAlgorithms;
 import Helpers.ColorPixel;
 import Helpers.PPLinkedList;
 import Helpers.PixelPoint;
-
+    /**
+    Uses Flood Fill to select the pixels and MixedRepeat to replace colors.
+    Uses one less loop as the edges of selected area do not need to be recalculated.
+    */
 public class FloodFillWithMixedRepeat {
     
         public ColorPixel[][] SelectAndReplacePixels(ColorPixel[][] pixels, ColorPixel selectedAreaColor, PixelPoint startPos, int range, int expandAmount) {

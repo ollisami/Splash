@@ -1,5 +1,7 @@
 package Helpers;
-
+    /**
+    A helper class to store color values.
+    */
 public class ColorPixel {
 
     private int argb;

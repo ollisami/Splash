@@ -1,5 +1,9 @@
 package Helpers;
 
+    /**
+    A linked list that remembers the last item.
+    */
+
 public class PPLinkedList {
     
     private PPLinkedListNode head;
