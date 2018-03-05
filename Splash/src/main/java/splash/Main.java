@@ -6,11 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,22 +26,24 @@ public class Main {
         
         //Aluksi valitaan käytettävä kuvatiedosto
         
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_simple.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_1.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_2.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_3.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_4.jpg");
-        Path path = FileSystems.getDefault().getPath("resources", "Demo_5.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_6.jpg");
+        //String imageName = "Demo_simple.jpg";
+        //String imageName = "Demo_1.jpg";
+        //String imageName = "Demo_2.jpg";
+        //String imageName = "Demo_3.jpg";
+        //String imageName = "Demo_4.jpg";
+        String imageName = "Demo_5.jpg";
+        //String imageName = "Demo_6.jpg";
         
         //Performance testing
-        //Path path = FileSystems.getDefault().getPath("resources", "performance_test_400.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "performance_test_800.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "performance_test_1000.jpg");
+        //String imageName = "performance_test_400.jpg";
+        //String imageName = "performance_test_800.jpg";
+        //String imageName = "performance_test_1000.jpg";
         
         
         //Luetaan kuva tiedosto
-        BufferedImage bi = loadImage(path.toString());
+        //InputStream is = getClass().getClassLoader().getResourceAsStream("images/munkuva.jpg");
+        ImageReader imgReader = new ImageReader();
+        BufferedImage bi = imgReader.readImageByame(imageName);
         // Muunnetaan kuva pikselidataksi
         ImageEditor editor = new ImageEditor(convertImgToColorPixelArray(bi));
         // Piirretään kuva näytölle
@@ -63,20 +60,6 @@ public class Main {
         */
     }
 
-    /**
-    Lukee tiedoston resources kansiosta
-    @param ref path to image
-    @return the image as buffered image
-    */
-    public static BufferedImage loadImage(String ref) {
-        BufferedImage bimg = null;
-        try {
-            bimg = ImageIO.read(new File(ref));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return bimg;
-    }
 
     /**
     Piirtää kuvan JFrame:en
