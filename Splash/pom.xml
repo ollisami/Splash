@@ -57,7 +57,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>Spalsh.splash.Main</mainClass>
+                                    <mainClass>splash.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
