@@ -19,14 +19,24 @@ public class Main {
 
     static JLabel imgLabel;
     
+    
+    /*
+        Tämä luokka hoitaa kuvan latamisen ja muuttamisen pikseli dataksi.
+        Kuvan lataamista ja muuntamista pikselidataksi ei ole laskettu osaksi
+        varsinaista algoritmiä, sillä ne ovat laitteistosta ja käyttötarkoituksesta
+        riippuvia.
+     */
     public static void main(String[] args) {
+        
+        
+        //Aluksi valitaan käytettävä kuvatiedosto
         
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_simple.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_1.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_2.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_3.jpg");
-        Path path = FileSystems.getDefault().getPath("resources", "Demo_4.jpg");
-        //Path path = FileSystems.getDefault().getPath("resources", "Demo_5.jpg");
+        //Path path = FileSystems.getDefault().getPath("resources", "Demo_4.jpg");
+        Path path = FileSystems.getDefault().getPath("resources", "Demo_5.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "Demo_6.jpg");
         
         //Performance testing
@@ -34,8 +44,12 @@ public class Main {
         //Path path = FileSystems.getDefault().getPath("resources", "performance_test_800.jpg");
         //Path path = FileSystems.getDefault().getPath("resources", "performance_test_1000.jpg");
         
+        
+        //Luetaan kuva tiedosto
         BufferedImage bi = loadImage(path.toString());
+        // Muunnetaan kuva pikselidataksi
         ImageEditor editor = new ImageEditor(convertImgToColorPixelArray(bi));
+        // Piirretään kuva näytölle
         createAndShowGUI(editor);
         
         //Performance testing
@@ -50,7 +64,7 @@ public class Main {
     }
 
     /**
-    The Description of the method to explain what the method does
+    Lukee tiedoston resources kansiosta
     @param ref path to image
     @return the image as buffered image
     */
@@ -65,7 +79,7 @@ public class Main {
     }
 
     /**
-    Draws the image file to a JFrame
+    Piirtää kuvan JFrame:en
     @param editor imageEditor that hold the image data
     */
     private static void createAndShowGUI(ImageEditor editor) {
@@ -84,7 +98,7 @@ public class Main {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Pixel:" + e.getX() + "," + e.getY());
                 System.out.println(editor.getPixelByCordinates(e.getX(), e.getY()));
-                editor.selectPixelsByCordinates(e.getX(), e.getY());
+                editor.selectAndReplacePixelsByCordinates(e.getX(), e.getY());
                 ImageIcon newImgIcon = new ImageIcon(editor.GetImage());
                 imgLabel.setIcon(newImgIcon);
             }
@@ -113,7 +127,7 @@ public class Main {
     }
 
     /**
-    Converts a buffered image to ColorPixel matrix
+    Muuttaa kuvan ColorPixel matriisiksi.
     @param image image to convert
     @return ColorPixel[][] holding the pixel data
     */

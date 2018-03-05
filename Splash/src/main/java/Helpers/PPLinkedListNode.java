@@ -1,6 +1,6 @@
 package Helpers;
     /**
-    Node class for linked list.
+    Apuluokka linkitettyyn listaan
     */
 public class PPLinkedListNode {
     public PixelPoint current;

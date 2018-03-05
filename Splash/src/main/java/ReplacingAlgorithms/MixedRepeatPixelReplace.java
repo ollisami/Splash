@@ -46,6 +46,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
         
         int filledArraysCount = 0;
         
+        // Fill all four diffrent arrays
         if(w_max + -areaSize_x >= 0) {
             for (int x = 0; x < areaSize_x; x++) {
                 for (int y = 0; y < areaSize_y; y++) {
@@ -81,6 +82,8 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
             }
             filledArraysCount++;
         }
+        
+        //Select the pixel color by comparing the four arrays
         if(filledArraysCount > 0) {
             for (int x = 0; x < selectedPixels.length; x++) {
                 for (int y = 0; y < selectedPixels[x].length; y++) {

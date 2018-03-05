@@ -1,6 +1,6 @@
 package Helpers;
     /**
-    A helper class to store color values.
+    Apuluokka pikselin RGB arvojen säilömiseen
     */
 public class ColorPixel {
 

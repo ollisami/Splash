@@ -1,7 +1,7 @@
 package Helpers;
 
     /**
-    A linked list that remembers the last item.
+   Linkitetty lista joka muistaa viimeisen objektin
     */
 
 public class PPLinkedList {

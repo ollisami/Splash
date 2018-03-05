@@ -3,32 +3,24 @@ package splash;
 import Helpers.ColorPixel;
 import Helpers.PixelPoint;
 import MultiFunctionAlgorithms.FloodFillWithMixedRepeat;
-import ReplacingAlgorithms.DummyPixelReplace;
-import ReplacingAlgorithms.MixedRepeatPixelReplace;
-import ReplacingAlgorithms.ReplacingAlgorithm;
-import ReplacingAlgorithms.VerticalRepeatPixelReplace;
-import SelectingAlgorithms.DummyLoopSelection;
-import SelectingAlgorithms.FloodFillSelection;
-import SelectingAlgorithms.OnePassCCL;
-import SelectingAlgorithms.SelectionAlgorithm;
+import ReplacingAlgorithms.*;
+import SelectingAlgorithms.*;
 import java.awt.image.BufferedImage;
 
 public class ImageEditor {
 
     private ColorPixel[][] pixels;
     private ColorPixel[][] selectedPixels;
-
-    //This is for debugging
-    private ColorPixel selectedAreaColor = new ColorPixel(255, 0, 255, 0);
+    private ColorPixel selectedAreaColor;
 
     public ImageEditor(ColorPixel[][] pixels) {
         this.pixels = pixels;
         this.selectedPixels = new ColorPixel[pixels.length][pixels[0].length];
+        selectedAreaColor = new ColorPixel(255, 0, 255, 0);
     }
 
     /**
-     * Recreates a image file from the pixel data
-     *
+     * Muuttaa pikselidatan takaisin kuvaksi
      * @return bufferedImage
      */
     public BufferedImage GetImage() {
@@ -49,17 +41,18 @@ public class ImageEditor {
     }
 
     /**
-     * Selects the pixels that are same colour as the selected pixel
+     * Valitsee ja korvaa ne pikselit, jotka täyttävät hakukriteerit
      *
      * @param x pixel cordinate x
      * @param y pixel cordinate y
      */
-    public void selectPixelsByCordinates(int x, int y) {
-        int selectionRange = 100000;
-        int expandAmount = 10;
+    public void selectAndReplacePixelsByCordinates(int x, int y) {
+        int selectionRange  = 100000; // kuinka paljon pikseleiden välillä saa olla eroa jotta ne tulevat valituksi
+        int expandAmount    = 10;     // kuinka monella pikselillä valittua aluetta laajennetaan
         PixelPoint startPos = new PixelPoint(x, y);
         /*
-        // Here we select the method used to make the selection.
+        // Valitaan käytettävä valitsemis algoritmi.
+        
         //SelectionAlgorithm selectionAlgorithm = new DummyLoopSelection();
         SelectionAlgorithm selectionAlgorithm = new FloodFillSelection();
         //SelectionAlgorithm selectionAlgorithm = new OnePassCCL();
@@ -72,6 +65,7 @@ public class ImageEditor {
                 expandAmount
         );
         
+        // Valitaan käytettävä korvaus algoritmi
         //ReplacingAlgorithm replacingAlgorithm = new DummyPixelReplace();
         //ReplacingAlgorithm replacingAlgorithm = new VerticalRepeatPixelReplace();
         ReplacingAlgorithm replacingAlgorithm = new MixedRepeatPixelReplace();
@@ -96,7 +90,7 @@ public class ImageEditor {
     }
 
     /**
-     * Returns a pixel from given cordinates. Null if invalid values.
+     * Palauttaa pikselin annetuista koordinaateista 
      *
      * @param x pixel cordinate x
      * @param y pixel cordinate y

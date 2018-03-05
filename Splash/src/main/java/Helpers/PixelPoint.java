@@ -1,7 +1,7 @@
 
 package Helpers;
     /**
-    Helper class sfor storing 2D-coordinates.
+    Apuluokka 2D-koordinaattien säilömiseen
     */
 public class PixelPoint {
    public int x;

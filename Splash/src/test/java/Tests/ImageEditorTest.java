@@ -34,7 +34,7 @@ public class ImageEditorTest {
     
     @Test
     public void TestSelectingPixels() {
-        this.imgEditor.selectPixelsByCordinates(3, 3);
+        this.imgEditor.selectAndReplacePixelsByCordinates(3, 3);
         assertFalse(this.imgEditor.getSelectedPixels()[3][3] == null);
     }
     
