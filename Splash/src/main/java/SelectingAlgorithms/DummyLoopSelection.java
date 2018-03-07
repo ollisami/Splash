@@ -6,7 +6,7 @@ import Helpers.PixelPoint;
 public class DummyLoopSelection implements SelectionAlgorithm {
     /**
     Loops through all the pixel in the image and selects the ones with matching colour
-    Time: 0(n²), Space: O(n²).
+    Time: 0(n), Space: O(n).
     @param pixels Current pixels matrix
     @param selectedAreaColor Color of the selected pixels
     @param startPos coordinates for the start pixel

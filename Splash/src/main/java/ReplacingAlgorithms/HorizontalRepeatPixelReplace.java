@@ -2,7 +2,7 @@ package ReplacingAlgorithms;
 
 import Helpers.ColorPixel;
 
-public class VerticalRepeatPixelReplace implements ReplacingAlgorithm {
+public class HorizontalRepeatPixelReplace implements ReplacingAlgorithm {
     /**
     Loops through all the pixels and replaces the color copying the texture from west of the selected area.
     Time: 0(n²), Space: O(n²).

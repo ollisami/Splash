@@ -4,7 +4,7 @@ package Tests;
 import ReplacingAlgorithms.DummyPixelReplace;
 import ReplacingAlgorithms.MixedRepeatPixelReplace;
 import ReplacingAlgorithms.ReplacingAlgorithm;
-import ReplacingAlgorithms.VerticalRepeatPixelReplace;
+import ReplacingAlgorithms.HorizontalRepeatPixelReplace;
 import SelectingAlgorithms.FloodFillSelection;
 import SelectingAlgorithms.SelectionAlgorithm;
 import java.awt.Point;
@@ -52,7 +52,7 @@ public class ReplaceAlgoTest {
         SelectionAlgorithm selectAlgo = new FloodFillSelection();
         ColorPixel[][] selected = selectAlgo.SelectPixels(this.pixels, selectedAreaColor, new PixelPoint(3,3), 1000, 1); 
         
-        ReplacingAlgorithm replaceAlgo = new VerticalRepeatPixelReplace();
+        ReplacingAlgorithm replaceAlgo = new HorizontalRepeatPixelReplace();
         assertFalse(replaceAlgo.replacePixels(pixels, selected, selectedAreaColor) == null);
     }
     
