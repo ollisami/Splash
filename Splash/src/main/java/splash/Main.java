@@ -27,12 +27,12 @@ public class Main {
         //Aluksi valitaan käytettävä kuvatiedosto
         
         //String imageName = "Demo_simple.jpg";
-        //String imageName = "Demo_1.jpg";
-        //String imageName = "Demo_2.jpg";
+        //    String imageName = "Demo_1.jpg";
+        //    String imageName = "Demo_2.jpg";
         //String imageName = "Demo_3.jpg";
-        //String imageName = "Demo_4.jpg";
-        String imageName = "Demo_5.jpg";
-        //String imageName = "Demo_6.jpg";
+        //  String imageName = "Demo_4.jpg";
+          String imageName = "Demo_5.jpg";
+        //  String imageName = "Demo_6.jpg";
         
         //Performance testing
         //String imageName = "performance_test_400.jpg";
