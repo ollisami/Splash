@@ -4,8 +4,10 @@ import Helpers.ColorPixel;
 
 public class HorizontalRepeatPixelReplace implements ReplacingAlgorithm {
     /**
+    HUOM! Tätä algoritmia ei käytetä lopullisessa ratkaisussa, vaan se on tehty vertailua varten!  
+     
     Loops through all the pixels and replaces the color copying the texture from west of the selected area.
-    Time: 0(n²), Space: O(n²).
+    Time: 0(n), Space: O(n).
     @param pixels Current pixels matrix
     @param selectedPixels the currently selected area
     @param selectedAreaColor Color of the selected pixels

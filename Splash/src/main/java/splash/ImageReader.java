@@ -11,7 +11,7 @@ public class ImageReader {
         return loadImage(is);
     }
     
-        /**
+    /**
     Lukee tiedoston resources kansiosta
     @param ref path to image
     @return the image as buffered image

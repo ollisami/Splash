@@ -20,7 +20,9 @@ public class FloodFillSelection implements SelectionAlgorithm {
         
         ColorPixel[][] selectedPixels = new ColorPixel[pixels.length][pixels[0].length];
         ColorPixel targetColor        = pixels[startPos.x][startPos.y];
-        PPLinkedList queue            = new PPLinkedList();    
+        PPLinkedList queue            = new PPLinkedList();
+        
+        //Lisätään kohta johon käyttäjä klikkasi jonoon
         queue.add(startPos);
         
         while(!queue.isEmpty()) {
@@ -28,7 +30,9 @@ public class FloodFillSelection implements SelectionAlgorithm {
             PixelPoint n = queue.remove();
             if(selectedPixels[n.x][n.y] != null) continue;
             
-            PixelPoint w = new PixelPoint(n.x, n.y);           
+            PixelPoint w = new PixelPoint(n.x, n.y);   
+            
+            // Etsitään valitun alueen vasen reuna
             while (true) {               
                 if(w.x >= 0 && pixels[w.x][w.y].difference(targetColor) <= range) {
                     w.x--;
@@ -38,6 +42,7 @@ public class FloodFillSelection implements SelectionAlgorithm {
                 }
             }
             
+            // Etsitään valitun alueen oikea reuna
             PixelPoint e = new PixelPoint(n.x, n.y);
             while (true) {
                 if(e.x < pixels.length && pixels[e.x][e.y].difference(targetColor) <= range) {
@@ -56,7 +61,7 @@ public class FloodFillSelection implements SelectionAlgorithm {
                     PixelPoint north = new PixelPoint(n.x, n.y + 1);
                     PixelPoint south = new PixelPoint(n.x, n.y - 1);
                     
-                    
+                    // Lisätään kaikki yläpuolella olevat pikselit jonoon
                     if(north.y < pixels[0].length &&
                        selectedPixels[north.x][north.y] == null &&
                        pixels[north.x][north.y].difference(targetColor) <= range)
@@ -67,6 +72,7 @@ public class FloodFillSelection implements SelectionAlgorithm {
                         }
                     }
 
+                    // Lisätään kaikki alapuolella olevat pikselit jonoon
                     if(south.y >= 0 &&
                        selectedPixels[south.x][south.y] == null && 
                        pixels[south.x][south.y].difference(targetColor) <= range) 

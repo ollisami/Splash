@@ -5,9 +5,11 @@ import Helpers.PixelPoint;
 
 public class DummyPixelReplace implements ReplacingAlgorithm {
     /**
+     HUOM! Tätä algoritmia ei käytetä lopullisessa ratkaisussa, vaan se on tehty vertailua varten! 
+     
     Loops through all the pixels and replaces the color by copying the color thats on the west or east side of the selected area 
     (depending on the difference between the colors).
-    Time: 0(n²), Space: O(n²).
+    Time: 0(n), Space: O(n).
     @param pixels Current pixels matrix
     @param selectedPixels the currently selected area
     @param selectedAreaColor Color of the selected pixels

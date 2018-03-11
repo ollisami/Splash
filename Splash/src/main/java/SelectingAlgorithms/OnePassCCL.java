@@ -16,12 +16,13 @@ public class OnePassCCL implements SelectionAlgorithm {
     }
 
     /**
+     ** HUOM: Algoritmi käyttää javan valmiita tietorakenteita, sillä sitä ei varsinaisesti
+     * käytetä lopullisessa ratkaisussa, vaan se on tehty vertailua varten!
+     * 
      * Selects the pixels using One-pass Connected-component labeling algorithm
      * (https://en.wikipedia.org/wiki/Connected-component_labeling) 
      * Time: 0(n), Space: O(n).
      * 
-     * HUOM: Algoritmi käyttää javan valmiita tietorakenteita, sillä sitä ei varsinaisesti
-     * käytetä lopullisessa ratkaisussa, vaan se on tehty vertailua varten!
      *
      * @param pixels Current pixels matrix
      * @param selectedAreaColor Color of the selected pixels

@@ -6,7 +6,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
     /**
     Loops through all the pixels and replaces the color by 4-way copying the texture from nort, south, west and east of the selected area.
     At the end we calculate a median color for each pixel and use it.
-    Time: 0(n²), Space: O(n²).
+    Time: 0(n), Space: O(n).
     @param pixels Current pixels matrix
     @param selectedPixels the currently selected area
     @param selectedAreaColor Color of the selected pixels
@@ -20,7 +20,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
         int e_max = Integer.MIN_VALUE;
         int s_max = Integer.MAX_VALUE;
         
-        // Search for the edges of our selected area
+        // Etsitään valitun alueen reunat
         for (int x = 0; x < selectedPixels.length; x++) {
             for (int y = 0; y < selectedPixels[x].length; y++) {
                 if (selectedPixels[x][y] != selectedAreaColor) {
@@ -33,11 +33,11 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
             }
         }
         
-        // make the selected area a square based on edges
+        // Tehdään valitusta alueesta neliö löydettyjen reunojen perusteella
         int areaSize_x = e_max - w_max + 1;
         int areaSize_y = n_max - s_max + 1;
         
-        // Create new arrays for all four direction
+        // Tehdään uudet taulukot kaikille neljälle ilmansuunnalle
         ColorPixel[][][] filledArrays = new ColorPixel[4][areaSize_x][areaSize_y];
         ColorPixel[][] w_fill = filledArrays[0];
         ColorPixel[][] n_fill = filledArrays[1];
@@ -46,7 +46,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
         
         int filledArraysCount = 0;
         
-        // Fill all four diffrent arrays
+        // Täytetään kaikki neljä taulukkoa
         if(w_max + -areaSize_x >= 0) {
             for (int x = 0; x < areaSize_x; x++) {
                 for (int y = 0; y < areaSize_y; y++) {
@@ -83,7 +83,7 @@ public class MixedRepeatPixelReplace implements ReplacingAlgorithm {
             filledArraysCount++;
         }
         
-        //Select the pixel color by comparing the four arrays
+        // Määritetään pikselin väri hyödyntäen neljän aputaulukon keskiarvoa
         if(filledArraysCount > 0) {
             for (int x = 0; x < selectedPixels.length; x++) {
                 for (int y = 0; y < selectedPixels[x].length; y++) {
